@@ -1,0 +1,426 @@
+/* ==================== 模态弹窗样式 ==================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: var(--z-modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 确认类弹窗 - 强化背景 */
+.modal-overlay.confirm-modal,
+.modal-overlay.delete-modal {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* 设置弹窗 - 轻量化背景 */
+.modal-overlay.settings-modal,
+.modal-overlay.info-modal {
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* 重要操作弹窗 - 最强化背景 */
+.modal-overlay.critical-modal {
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 关闭动画状态 */
+.modal-overlay.closing {
+    opacity: 0;
+    visibility: visible; /* 保持可见性直到动画完成 */
+}
+
+.modal-overlay.closing .modal-content {
+    transform: translateY(20px) scale(0.95);
+}
+
+.modal-content {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.modal-content.small-modal {
+    max-width: 400px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.close-modal-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--surface-color);
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--text-color-muted);
+    transition: all 0.2s ease;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.close-modal-btn:hover {
+    background-color: #ef4444;
+    color: white;
+    border-color: #dc2626;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    transform: scale(1.1);
+}
+
+.close-modal-btn:active {
+    transform: scale(0.95);
+    background-color: #dc2626;
+}
+
+/* 重命名弹窗特殊样式 */
+.rename-modal .modal-content,
+.new-folder-modal .modal-content {
+    max-width: 450px;
+}
+
+.rename-form,
+.new-folder-form {
+    padding: 1.5rem;
+}
+
+.rename-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--surface-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 1.5rem;
+}
+
+.rename-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.rename-input::placeholder {
+    color: var(--text-color-muted);
+}
+
+/* 确认删除弹窗样式 */
+.confirm-modal .modal-content {
+    max-width: 380px;
+    padding: 0;
+}
+
+.confirm-content {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.confirm-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #dc2626;
+}
+
+.confirm-message {
+    color: var(--text-color);
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+/* 弹窗表单样式 */
+.modal-form {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* 导入表单特殊处理 */
+#import-form {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* 设置内容特殊处理 */
+.settings-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--surface-color);
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* 表单操作按钮 */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.form-actions button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    min-width: 80px;
+}
+
+.form-actions button[type="submit"],
+.form-actions button.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.form-actions button[type="submit"]:hover,
+.form-actions button.primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.form-actions button[type="button"],
+.form-actions button.secondary {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.form-actions button[type="button"]:hover,
+.form-actions button.secondary:hover {
+    background-color: #e5e7eb;
+}
+
+/* 弹窗操作按钮 */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 1.5rem 1.5rem;
+}
+
+/* 确认删除弹窗的按钮样式 */
+.confirm-modal .modal-actions {
+    border-top: none;
+}
+
+.confirm-modal .modal-btn {
+    flex: 1;
+    min-width: 100px;
+    white-space: nowrap;
+}
+
+.modal-btn {
+    padding: 0.75rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    min-width: 80px;
+    white-space: nowrap;
+}
+
+/* 其他弹窗保持原有样式 */
+.modal-overlay:not(.confirm-modal) .modal-actions {
+    justify-content: flex-end;
+    border-top: 1px solid var(--border-color);
+    padding: 1.5rem;
+}
+
+.modal-btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.modal-btn.primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.modal-btn.secondary {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.modal-btn.secondary:hover {
+    background-color: #e5e7eb;
+}
+
+.modal-btn.danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+.modal-btn.danger:hover {
+    background-color: #dc2626;
+}
+
+/* 主题适配 */
+[data-theme="dark"] .modal-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .modal-overlay.confirm-modal,
+[data-theme="dark"] .modal-overlay.delete-modal {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .modal-overlay.settings-modal,
+[data-theme="dark"] .modal-overlay.info-modal {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .modal-overlay.critical-modal {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* 护眼主题适配 */
+[data-theme="sepia"] .modal-overlay {
+    background-color: rgba(139, 117, 89, 0.4);
+}
+
+[data-theme="sepia"] .modal-overlay.confirm-modal,
+[data-theme="sepia"] .modal-overlay.delete-modal {
+    background-color: rgba(139, 117, 89, 0.6);
+}
+
+[data-theme="sepia"] .modal-overlay.settings-modal,
+[data-theme="sepia"] .modal-overlay.info-modal {
+    background-color: rgba(139, 117, 89, 0.25);
+}
+
+/* ==================== 弹窗关闭按钮策略优化 ==================== */
+
+/* 确认类弹窗 - 隐藏X按钮，只保留取消/确认按钮 */
+.confirm-modal .close-modal-btn,
+.delete-modal .close-modal-btn,
+.rename-modal .close-modal-btn,
+.new-folder-modal .close-modal-btn {
+    display: none;
+}
+
+/* 信息展示类弹窗 - 只保留X按钮，隐藏底部按钮区域的取消按钮 */
+.info-modal .modal-btn.secondary,
+.settings-modal .modal-btn.secondary {
+    display: none;
+}
+
+/* 为信息类弹窗的X按钮增强样式 */
+.info-modal .close-modal-btn,
+.settings-modal .close-modal-btn {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    border: 1px solid #d1d5db;
+}
+
+.info-modal .close-modal-btn:hover,
+.settings-modal .close-modal-btn:hover {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .modal-btn {
+        width: 100%;
+    }
+}

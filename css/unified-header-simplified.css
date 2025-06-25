@@ -1,0 +1,305 @@
+/* ==================== 简化的统一头部样式 ==================== */
+
+/* 确保关键颜色变量存在 */
+:root {
+    --primary-rgb: 79, 70, 229;
+    --accent-color: #e91e63;
+}
+
+[data-theme="dark"] {
+    --primary-rgb: 99, 102, 241;
+}
+
+/* 简化的顶部栏设计 */
+.app-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header, 1000);
+    min-height: 80px;
+    animation: breathe 4s ease-in-out infinite;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 呼吸动画效果 */
+@keyframes breathe {
+    0%, 100% {
+        background: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    50% {
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* 暗色主题的呼吸效果 */
+[data-theme="dark"] .app-header {
+    background: rgba(45, 45, 45, 0.85);
+    animation: breatheDark 4s ease-in-out infinite;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes breatheDark {
+    0%, 100% {
+        background: rgba(45, 45, 45, 0.85);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        background: rgba(45, 45, 45, 0.9);
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* 左侧区域 */
+.header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+/* 导航链接容器 - 简化设计 */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* 标题链接样式 */
+.nav-title {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color-secondary);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+/* 当前页面的标题样式 */
+.nav-title.active {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    opacity: 1;
+}
+
+/* 右侧操作按钮区域 */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-left: 1rem;
+}
+
+/* 简化的图标按钮 */
+.header-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-color-secondary);
+    transition: all 0.25s ease;
+    font-size: 1rem;
+    position: relative;
+}
+
+/* 主题切换按钮特殊样式 */
+.header-icon-btn#theme-toggle-btn {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb, 79, 70, 229), 0.1), 
+        rgba(var(--primary-color-rgb, 79, 70, 229), 0.05));
+    border: 1px solid rgba(var(--primary-color-rgb, 79, 70, 229), 0.2);
+    color: var(--primary-color);
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(var(--primary-color-rgb, 79, 70, 229), 0.15);
+}
+
+.header-icon-btn#theme-toggle-btn:hover {
+    background: linear-gradient(135deg, 
+        var(--primary-color), 
+        var(--primary-color-dark));
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--primary-color-rgb, 79, 70, 229), 0.3);
+}
+
+/* 暗色主题下的主题切换按钮 */
+[data-theme="dark"] .header-icon-btn#theme-toggle-btn {
+    background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.2), 
+        rgba(99, 102, 241, 0.1));
+    border-color: rgba(99, 102, 241, 0.3);
+    color: #6366f1;
+}
+
+[data-theme="dark"] .header-icon-btn#theme-toggle-btn:hover {
+    background: linear-gradient(135deg, #6366f1, #4338ca);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* 护眼主题下的主题切换按钮 */
+[data-theme="sepia"] .header-icon-btn#theme-toggle-btn {
+    background: linear-gradient(135deg, 
+        rgba(139, 117, 89, 0.2), 
+        rgba(139, 117, 89, 0.1));
+    border-color: rgba(139, 117, 89, 0.3);
+    color: #8b7559;
+}
+
+[data-theme="sepia"] .header-icon-btn#theme-toggle-btn:hover {
+    background: linear-gradient(135deg, #8b7559, #6b5b47);
+    box-shadow: 0 4px 12px rgba(139, 117, 89, 0.4);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .header-left {
+        gap: 1.5rem;
+    }
+    
+    .header-nav {
+        gap: 1rem;
+    }
+    
+    .nav-title {
+        font-size: 0.9rem;
+    }
+    
+    .nav-title.active {
+        font-size: 1.3rem;
+    }
+    
+    .header-actions {
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        min-height: auto;
+    }
+    
+    .header-left {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .header-nav {
+        gap: 0.8rem;
+    }
+    
+    .nav-title {
+        font-size: 0.85rem;
+    }
+    
+    .nav-title.active {
+        font-size: 1.2rem;
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+        padding-left: 0;
+    }
+    
+    .header-icon-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-title {
+        font-size: 0.8rem;
+    }
+    
+    .nav-title.active {
+        font-size: 1.1rem;
+    }
+    
+    .header-icon-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .header-icon-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* 暗色主题适配 */
+@media (prefers-color-scheme: dark) {
+    .app-header {
+        border-bottom: 1px solid rgba(64, 64, 64, 0.3);
+    }
+}
+
+/* 焦点样式 */
+.nav-title:focus-visible,
+.header-icon-btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* 禁用状态 */
+.header-icon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 修复页面布局 */
+.view {
+    padding-top: 0 !important;
+}
+
+.view#library-view {
+    padding: 0 !important;
+}
+
+/* 确保头部下方内容有适当间距 */
+.app-header + * {
+    margin-top: 1.5rem;
+}
+
+/* 修复导航栏的定位 */
+.navigation-bar {
+    margin-top: 0;
+}
+
+/* 确保书库内容从头部下方开始 */
+.library-container,
+.vocabulary-container,
+.review-container {
+    padding: 1.5rem 2rem 2rem 2rem;
+}
+
+/* 减少动画模式适配 */
+@media (prefers-reduced-motion: reduce) {
+    .app-header {
+        animation: none !important;
+    }
+    
+    .nav-title,
+    .header-icon-btn {
+        transition: none !important;
+    }
+}

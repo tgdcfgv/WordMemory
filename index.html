@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordWeb - 你的沉浸式阅读单词书</title>    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/unified-header-simplified.css">
+    <link rel="stylesheet" href="css/unified-header-modals.css">
+    <link rel="stylesheet" href="css/library.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/sidebar-menu.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/reader.css">
+    <link rel="stylesheet" href="css/context-menu.css">
+    <link rel="stylesheet" href="css/custom-color-picker.css">
+    <link rel="stylesheet" href="css/navigation-updates.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 主应用容器 -->
+    <div id="app-container">
+        <!-- 书库视图 -->
+        <div id="library-view" class="view active-view">            <header class="app-header">
+                <div class="header-left">
+                    <div class="header-nav">
+                        <a href="index.html" class="nav-title active">📚 我的书库</a>
+                        <a href="vocabulary.html" class="nav-title">📕 生词本</a>
+                        <a href="review.html" class="nav-title">🔄 复习</a>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="view-toggle-btn" class="header-icon-btn" title="切换视图">
+                        <svg id="grid-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+                        </svg>
+                        <svg id="list-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                            <path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h16v2H4z"/>
+                        </svg>
+                    </button>
+                    <button id="search-btn" class="header-icon-btn" title="搜索">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                        </svg>
+                    </button>
+                    <button id="theme-toggle-btn" class="header-icon-btn" title="切换主题">
+                        <span id="theme-icon">🌙</span>
+                    </button>                    <button id="settings-btn" class="header-icon-btn" title="设置">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.65 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+                        </svg>
+                    </button>
+                </div>            </header>
+            
+            <!-- 路径导航条 -->
+            <div class="navigation-bar">
+                <div class="nav-controls">
+                    <button id="nav-back-btn" class="nav-btn" title="后退" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                        </svg>
+                    </button>
+                    <button id="nav-forward-btn" class="nav-btn" title="前进" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                        </svg>
+                    </button>
+                    <button id="nav-up-btn" class="nav-btn" title="上级目录" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="breadcrumb-container">
+                    <div class="breadcrumb" id="breadcrumb">                        <span class="breadcrumb-item active" data-path="">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            </svg>
+                            📚 我的书库
+                        </span>
+                    </div>
+                </div>                <div class="nav-actions">                    <button id="add-menu-btn" class="nav-btn add-menu-btn" title="添加内容">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                    </button><!-- 添加内容弹出菜单 -->
+                    <div id="add-content-menu" class="add-content-menu">
+                        <button class="add-menu-item primary" data-action="new-folder" title="新建文件夹">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 6h-2l-2-2H8L6 6H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-1 12H5V8h14v10z"/>
+                            </svg>
+                            <span data-i18n="newFolder">新建文件夹</span>
+                        </button>
+                        <button class="add-menu-item" data-action="import-text" title="从文稿导入">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            </svg>
+                            <span data-i18n="importFromText">从文稿导入</span>
+                        </button>
+                        <button class="add-menu-item" data-action="import-link" title="从链接导入">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z"/>
+                            </svg>
+                            <span data-i18n="importFromLink">从链接导入</span>
+                        </button>
+                        <button class="add-menu-item" data-action="import-file" title="从文件导入">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                <path d="M12,11L16,15H13V19H11V15H8L12,11Z"/>
+                            </svg>
+                            <span data-i18n="importFromFile">从文件导入</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="selection-bar" style="display: none;">
+                <div class="selection-info">
+                    <button id="cancel-selection-btn" class="selection-bar-btn">取消</button>
+                    <span id="selection-count"></span>
+                </div>
+                <div class="selection-actions">
+                    <button id="add-to-folder-selected-btn" class="selection-bar-btn">添加到文件夹</button>
+                    <button id="delete-selected-btn" class="selection-bar-btn danger">删除</button>
+                </div>
+            </div>            <main class="library-container">
+                <div class="library-grid" id="library-grid">
+                    <!-- 文稿块将通过JS动态添加 -->
+                </div>
+                <div class="library-list" id="library-list">
+                    <!-- 列表视图将通过JS动态添加 -->
+                </div></main>
+        </div>
+        
+        <!-- 阅读视图 -->
+        <div id="reading-view" class="view">            <header class="reader-header">
+                <button id="back-to-library-btn" title="返回书库">
+                    <span style="font-size: 20px; font-weight: bold;">&lt;</span>
+                </button>
+                <h2 id="reader-title"></h2>
+            </header>
+            <!-- 右侧浮动控制面板 -->
+            <div class="reader-controls-panel" id="reader-controls-panel">
+                <button class="panel-toggle" id="panel-toggle">⚙️</button>
+                <div class="controls-content">
+                    <div class="control-item">
+                        <label>主题</label>
+                        <select id="theme-select">
+                            <option value="light">明亮</option>
+                            <option value="sepia">护眼</option>
+                            <option value="dark">暗黑</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <label>字号</label>
+                        <div class="font-controls">
+                            <button id="decrease-font">-</button>
+                            <span id="font-size-display">18px</span>
+                            <button id="increase-font">+</button>
+                        </div>
+                    </div>
+                    <div class="control-item">
+                        <label>布局</label>
+                        <div class="layout-btn-group">
+                            <button id="layout-vertical-btn" class="layout-btn">垂直</button>
+                            <button id="layout-paging-btn" class="layout-btn">翻页</button>
+                        </div>
+                    </div>
+                    <div class="control-item width-control">
+                        <label>文本宽度</label>
+                        <div class="width-controls">
+                            <input type="range" id="text-width-slider" min="50" max="90" value="75">
+                        </div>
+                    </div>
+                </div>
+            </div>            <main class="reader-content-area" id="reader-content-area">
+                <div class="reader-content" id="reader-content">
+                    <!-- 文稿内容将通过JS动态添加 -->
+                </div>
+                <!-- 悬浮翻页控制 -->
+                <div class="floating-page-controls" id="floating-page-controls" style="display: none;">
+                    <button id="prev-page" class="floating-page-btn floating-page-left">‹</button>
+                    <button id="next-page" class="floating-page-btn floating-page-right">›</button>
+                    <div id="page-indicator" class="floating-page-indicator">1 / 1</div>
+                </div>
+                <!-- 原翻页控制（作为后备） -->
+                <div class="page-controls" id="page-controls" style="display: none;">
+                    <button id="prev-page-backup" class="page-btn">‹</button>
+                    <span id="page-indicator-backup">1 / 1</span>
+                    <button id="next-page-backup" class="page-btn">›</button>
+                </div>
+            </main>
+        </div>
+        <!-- 生词本/复习视图 (暂未实现) -->
+        <div id="vocabulary-view" class="view">
+            <header class="app-header">
+                <h1>生词本</h1>
+                <div class="header-actions">
+                    <button id="back-to-library-from-vocab-btn">返回书库</button>
+                </div>
+            </header>
+            <main id="vocabulary-list">
+                <!-- 生词将通过JS动态添加 -->
+            </main>
+        </div>    </div>    <!-- 上下文菜单：已删除静态 card-context-menu，交由 JS 动态创建 -->
+      <!-- 重命名弹窗 -->
+    <div class="modal-overlay rename-modal" id="rename-modal">
+        <div class="modal-content small-modal">            <header class="modal-header">
+                <h2>编辑导入文本</h2>
+                <button class="close-modal-btn" id="close-rename-modal">&times;</button>
+            </header>
+            <div class="rename-form">
+                <input type="text" id="rename-input" class="rename-input" placeholder="请输入新的文档名称">
+                <div class="form-actions">
+                    <button type="button" class="modal-btn secondary" id="cancel-rename-btn">取消</button>
+                    <button type="button" class="modal-btn primary" id="confirm-rename-btn">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 新建文件夹弹窗 -->
+    <div class="modal-overlay new-folder-modal" id="new-folder-modal">
+        <div class="modal-content small-modal">
+            <header class="modal-header">
+                <h2>新建文件夹</h2>
+                <button class="close-modal-btn" id="close-new-folder-modal">&times;</button>
+            </header>
+            <div class="new-folder-form">
+                <input type="text" id="new-folder-input" class="rename-input" placeholder="请输入文件夹名称">
+                <div class="form-actions">
+                    <button type="button" class="modal-btn secondary" id="cancel-new-folder-btn">取消</button>
+                    <button type="button" class="modal-btn primary" id="confirm-new-folder-btn">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 确认删除弹窗 -->
+    <div class="modal-overlay delete-modal" id="confirm-delete-modal">
+        <div class="modal-content">
+            <div class="confirm-content">
+                <div class="confirm-icon">⚠️</div>
+                <div class="confirm-message" id="confirm-message">
+                    删除后无法恢复，请谨慎操作。
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancel-delete-btn">取消</button>
+                <button class="modal-btn danger" id="confirm-delete-btn">确认删除</button>
+            </div>
+        </div>
+    </div>
+    <!-- 设置弹窗 -->
+    <div id="settings-modal" class="modal-overlay settings-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>设置</h2>
+                <button class="close-modal-btn" id="close-settings-btn">&times;</button>
+            </header>
+            <div class="settings-content">
+                <div class="form-group">
+                    <label for="app-language">应用语言</label>
+                    <select id="app-language">
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="default-doc-lang">默认文档语言</label>
+                    <select id="default-doc-lang">
+                        <option value="English">English</option>
+                        <option value="Chinese">中文</option>
+                        <option value="Spanish">Español</option>
+                        <option value="French">Français</option>
+                        <option value="German">Deutsch</option>
+                        <option value="Japanese">日本語</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="save-settings-btn">保存设置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 导入弹窗 -->
+    <div id="import-modal" class="modal-overlay info-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>导入新文稿</h2>
+                <button class="close-modal-btn" id="close-import-modal">&times;</button>
+            </header>
+            <form id="import-form">
+                <div class="form-group">
+                    <label for="doc-title">标题*</label>
+                    <input type="text" id="doc-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="doc-lang">语言</label>
+                    <input type="text" id="doc-lang" value="English">
+                </div>
+                <div class="form-group">
+                    <label for="doc-tags">标签 (用逗号分隔)</label>
+                    <input type="text" id="doc-tags">
+                </div>
+                <div class="form-group">
+                    <label for="doc-content">文本内容*</label>
+                    <textarea id="doc-content" rows="10" required placeholder="在此粘贴你的文本..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit">确认导入</button>
+                </div>
+            </form>
+        </div>
+    </div>    <!-- 颜色选择相关补充，确保事件绑定不报错 -->    <!-- 数据库系统 -->
+    <script src="db/models/base-model.js"></script>
+    <script src="db/models/user-model.js"></script>
+    <script src="db/models/document-model.js"></script>
+    <script src="db/models/vocabulary-model.js"></script>
+    <script src="db/storage/local-storage-manager.js"></script>
+    <script src="db/migrations/migration-manager.js"></script>
+    <script src="db/database-manager.js"></script>
+    <script src="db/db-init.js"></script>
+    <script src="db/example-usage.js"></script>
+    <script src="db/admin-panel.js"></script>
+    
+    <!-- 应用模块 -->
+    <script src="js/theme-manager.js"></script>
+    <script src="js/unified-header-manager.js"></script>
+    <script src="js/custom-color-picker.js"></script>
+    <script src="js/sidebar-manager.js"></script>
+    <script src="js/modal-manager.js"></script>
+    <script src="js/folder-manager.js"></script>
+    <script src="script-modular.js"></script>
+    <script src="js/context-menu.js"></script>
+    <script src="js/demo-data.js"></script>
+</body>
+</html>

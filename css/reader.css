@@ -1,0 +1,1093 @@
+/* ==================== 阅读器样式 ==================== */
+
+/* 阅读器头部 */
+.reader-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background-color: var(--surface-color);
+    border: none;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+    position: relative;
+    z-index: var(--z-elevated);
+}
+
+.reader-header h2 {
+    margin: 0;
+    flex-grow: 1;
+}
+
+#back-to-library-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: linear-gradient(135deg, 
+        var(--surface-color), 
+        var(--surface-color-alt));
+    color: var(--text-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 普通状态 */
+#back-to-library-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1), 
+        rgba(255, 255, 255, 0.05));
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 悬停状态 */
+#back-to-library-btn:hover {
+    background: linear-gradient(135deg, 
+        var(--primary-color), 
+        var(--primary-color-dark));
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(var(--primary-color-rgb, 79, 70, 229), 0.4),
+                0 2px 4px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+#back-to-library-btn:hover::before {
+    opacity: 1;
+}
+
+/* 点击状态 */
+#back-to-library-btn:active {
+    transform: scale(1.02);
+    box-shadow: 0 3px 12px rgba(var(--primary-color-rgb, 79, 70, 229), 0.3),
+                0 1px 2px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 阅读器头部响应式优化 */
+@media (max-width: 768px) {
+    .reader-header {
+        padding: 0.75rem 1rem;
+        gap: 0.75rem;
+    }
+    
+    .reader-header h2 {
+        font-size: 1.1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    #back-to-library-btn {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .reader-header {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    #back-to-library-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .reader-header h2 {
+        font-size: 1rem;
+    }
+}
+
+/* 阅读器控制面板 */
+.reader-controls-panel {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: var(--z-floating);
+    transition: all 0.3s ease;
+}
+
+.panel-toggle {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.2s ease;
+}
+
+.panel-toggle:hover {
+    background-color: var(--primary-color-dark);
+    transform: scale(1.05);
+}
+
+.controls-content {
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    padding: 1rem;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.reader-controls-panel:hover .controls-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.control-item {
+    margin-bottom: 1rem;
+}
+
+.control-item:last-child {
+    margin-bottom: 0;
+}
+
+.control-item label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-color-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.control-item select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.control-item select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.font-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: space-between;
+}
+
+.font-controls button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.font-controls button:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.layout-btn {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.layout-btn:hover,
+.layout-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.layout-btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+.layout-btn-group .layout-btn {
+    flex: 1 1 0;
+    padding: 0.5rem 0;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.layout-btn-group .layout-btn.active,
+.layout-btn-group .layout-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.layout-btn-group .layout-btn.clicked {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+.width-controls {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.width-controls input[type="range"] {
+    width: 100%;
+    margin: 0.5rem 0;
+    accent-color: var(--primary-color);
+    height: 18px;
+    vertical-align: middle;
+    background: var(--border-color);
+    border-radius: 3px;
+    outline: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+/* Webkit 浏览器：动态设置已划过部分颜色 */
+.width-controls input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border-color);
+}
+.width-controls input[type="range"]::-webkit-slider-thumb {
+    background: #fff;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: -6px;
+    position: relative;
+    z-index: 2;
+}
+.width-controls input[type="range"]:focus::-webkit-slider-runnable-track {
+    background: var(--primary-color);
+}
+
+/* Firefox：已划过部分主色，未划过部分淡紫色 */
+.width-controls input[type="range"]::-moz-range-track {
+    background: var(--primary-color);
+    height: 6px;
+    border-radius: 3px;
+}
+.width-controls input[type="range"]::-moz-range-progress {
+    background-color: var(--primary-color);
+    height: 6px;
+    border-radius: 3px;
+}
+.width-controls input[type="range"]::-moz-range-thumb {
+    background: #fff;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    box-shadow: 0 2px 6px rgba(108,63,211,0.15);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* IE/Edge：已划过部分主色，未划过部分淡紫色 */
+.width-controls input[type="range"]::-ms-fill-lower {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+.width-controls input[type="range"]::-ms-fill-upper {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+.width-controls input[type="range"]::-ms-thumb {
+    background: #fff;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    box-shadow: 0 2px 6px rgba(108,63,211,0.15);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.width-controls input[type="range"]:focus {
+    outline: none;
+}
+
+/* 兼容性修正 */
+.width-controls input[type="range"]::-webkit-slider-thumb {
+    position: relative;
+    z-index: 2;
+}
+.width-controls input[type="range"]::-webkit-slider-runnable-track {
+    position: relative;
+    z-index: 1;
+}
+
+/* 阅读器内容区域 */
+.reader-content-area {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: var(--background-color);
+    transition: all 0.3s ease;
+    min-height: 0; /* 确保flex子项能正确收缩 */
+    width: 100%; /* 确保容器占满全宽 */
+}
+
+/* 翻页模式下的内容区域 */
+.reader-content-area.paging-mode {
+    overflow: hidden; /* 移除滚动条 */
+    flex-direction: column;
+    padding: 1rem 2rem; /* 减少上下内边距 */
+    justify-content: center;
+    align-items: center;
+}
+
+.reader-content-area.paging-mode .reader-content {
+    height: calc(100vh - 180px); /* 固定高度，减去头部和控制区域 */
+    margin-bottom: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-height: calc(100vh - 180px);
+    min-height: calc(100vh - 180px);
+    width: 100%;
+    max-width: 75rem; /* 保持最大宽度限制 */
+    position: relative;
+}
+
+.reader-content {
+    padding: 2rem;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    line-height: 1.8;
+    font-size: 18px;
+    text-align: justify;
+    word-wrap: break-word;
+    position: relative;
+    max-width: 75rem; /* 默认最大宽度 */
+    width: 100%;
+    margin: 0 auto; /* 水平居中 */
+    transition: max-width 0.3s ease; /* 宽度变化时的过渡动画 */
+    align-self: flex-start; /* 垂直对齐到顶部 */
+}
+
+.reader-content.dual-column-layout {
+    /* 彻底防止三栏及外部污染，所有分栏相关属性都加important并只允许2栏 */
+    column-count: 2 !important;
+    column-width: auto !important;
+    column-gap: 3rem !important;
+    column-rule: 1px solid var(--border-color) !important;
+    flex: 1 !important;
+    overflow: hidden !important;
+    column-fill: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+/* 彻底移除所有可能的三栏及以上情况 */
+.reader-content.dual-column-layout {
+    -webkit-column-count: 2 !important;
+    -moz-column-count: 2 !important;
+    column-count: 2 !important;
+}
+
+/* 防止外部样式污染（捕获所有内联样式） */
+.reader-content.dual-column-layout[style] {
+    -webkit-column-count: 2 !important;
+    -moz-column-count: 2 !important;
+    column-count: 2 !important;
+    column-width: auto !important;
+    column-gap: 3rem !important;
+    column-rule: 1px solid var(--border-color) !important;
+}
+
+/* 响应式：移动端始终单栏 */
+@media (max-width: 1024px) {
+  .reader-content.dual-column-layout {
+    -webkit-column-count: 1 !important;
+    -moz-column-count: 1 !important;
+    column-count: 1 !important;
+    column-gap: 0 !important;
+    column-rule: none !important;
+  }
+}
+
+/* 悬浮翻页控制 */
+.floating-page-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none; /* 允许点击穿透到内容 */
+    z-index: 10;
+}
+
+.floating-page-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--border-color);
+    background-color: var(--surface-color);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    pointer-events: auto; /* 恢复按钮的点击事件 */
+    opacity: 0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.floating-page-left {
+    left: 20px;
+}
+
+.floating-page-right {
+    right: 20px;
+}
+
+.floating-page-btn:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.floating-page-btn:active:not(:disabled) {
+    background-color: #4f46e5 !important; /* 更深的主色调 */
+    color: white !important;
+    border-color: #4f46e5 !important;
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    transition: all 0.1s ease;
+}
+
+/* 悬浮翻页按钮基础样式 */
+.floating-page-btn {
+    position: absolute;
+    top: 50%;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-page-btn:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+}
+
+.floating-page-left {
+    left: 2rem;
+}
+
+.floating-page-right {
+    right: 2rem;
+}
+
+.floating-page-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+}
+
+.floating-page-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    background-color: var(--surface-color);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    opacity: 0.85;
+}
+
+/* 悬浮控件显示状态 */
+.floating-page-controls.show-controls .floating-page-btn:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-50%) scale(1);
+}
+
+.floating-page-controls.show-controls .floating-page-btn:hover:not(:disabled) {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.floating-page-controls.show-controls .floating-page-indicator {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* 暗黑主题下的悬浮控件 */
+[data-theme="dark"] .floating-page-btn {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .floating-page-btn:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+[data-theme="dark"] .floating-page-indicator {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* 护眼主题下的悬浮控件 */
+[data-theme="sepia"] .floating-page-btn {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(120, 113, 108, 0.2);
+}
+
+[data-theme="sepia"] .floating-page-btn:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 6px 16px rgba(146, 64, 14, 0.3);
+}
+
+[data-theme="sepia"] .floating-page-indicator {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(120, 113, 108, 0.2);
+}
+
+/* 暗色主题下的悬浮控件点击反馈 */
+.reader-content-area.theme-dark .floating-page-btn.clicked {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-color: var(--primary-color) !important;
+    transform: translateY(-50%) scale(0.95) !important;
+}
+
+/* 护眼主题下的悬浮控件 */
+.reader-content-area.theme-sepia .floating-page-btn {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+/* 护眼主题下的悬浮控件点击反馈 */
+.reader-content-area.theme-sepia .floating-page-btn.clicked {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-color: var(--primary-color) !important;
+    transform: translateY(-50%) scale(0.95) !important;
+}
+
+/* 翻页控制 */
+.page-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    flex-shrink: 0; /* 防止翻页控件被压缩 */
+}
+
+.page-btn {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--border-color);
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    color: var(--text-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.page-btn:active:not(:disabled) {
+    background-color: rgba(79, 70, 229, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#page-indicator {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    min-width: 100px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+/* 翻页动画效果 */
+.reader-content.fade-out {
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+}
+
+.reader-content.fade-in {
+    opacity: 1;
+    transition: opacity 0.25s ease-in;
+}
+
+/* 翻页模式特定样式 */
+.reader-content-area.paging-mode {
+    position: relative; /* 为悬浮控件提供定位上下文 */
+}
+
+.reader-content-area.paging-mode .reader-content {
+    height: calc(100vh - 200px); /* 固定高度，减去头部和控制区域 */
+    margin-bottom: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-height: calc(100vh - 200px);
+    min-height: calc(100vh - 200px);
+}
+
+.reader-content-area.paging-mode .page-controls {
+    display: none !important; /* 隐藏传统翻页控件 */
+}
+
+/* 垂直滚动模式优化 */
+.reader-content-area:not(.paging-mode) {
+    padding: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.reader-content-area:not(.paging-mode) .reader-content {
+    min-height: auto;
+    max-height: none;
+    height: auto;
+}
+
+.reader-content-area.paging-mode .floating-page-controls {
+    display: block; /* 显示悬浮翻页控件 */
+}
+
+/* 响应式翻页控件 */
+@media (max-width: 768px) {
+    .page-controls {
+        gap: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .page-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+    }
+    
+    #page-indicator {
+        font-size: 0.9rem;
+        min-width: 80px;
+        padding: 0.4rem 0.8rem;
+    }
+      /* 移动端悬浮控件调整 */
+    .floating-page-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .floating-page-left {
+        left: 10px;
+    }
+    
+    .floating-page-right {
+        right: 10px;
+    }
+    
+    .floating-page-indicator {
+        bottom: 15px;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    /* 移动端触摸优化 */
+    .floating-page-controls.show-controls .floating-page-btn:not(:disabled) {
+        opacity: 1; /* 移动端更明显 */
+    }
+}
+
+/* 响应式设计优化 */
+@media (max-width: 1200px) {
+    .reader-content {
+        max-width: 90%;
+        padding: 1.5rem;
+    }
+    
+    .reader-content-area {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .reader-content.dual-column-layout {
+        column-count: 1 !important;
+        column-gap: 0 !important;
+        column-rule: none !important;
+    }
+    
+    .reader-controls-panel {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .controls-content {
+        min-width: 180px;
+    }
+    
+    .reader-content {
+        padding: 1rem;
+        font-size: 16px;
+        max-width: 100%;
+    }
+    
+    .reader-content-area {
+        padding: 1rem;
+    }
+    
+    .reader-content-area.paging-mode .reader-content {
+        height: calc(100vh - 150px);
+        min-height: calc(100vh - 150px);
+        max-height: calc(100vh - 150px);
+    }
+}
+
+@media (max-width: 480px) {
+    .reader-content {
+        font-size: 14px;
+        padding: 0.75rem;
+        line-height: 1.6;
+    }
+    
+    .reader-content-area {
+        padding: 0.75rem;
+    }
+    
+    .reader-controls-panel {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .panel-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+/* 改进文字选择和高亮效果 */
+.clickable-word {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin: 0 1px;
+    position: relative;
+}
+
+.clickable-word:hover {
+    background-color: rgba(79, 70, 229, 0.15);
+    color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+.highlighted-word {
+    background-color: rgba(16, 185, 129, 0.25);
+    color: var(--secondary-color);
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin: 0 2px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    position: relative;
+    box-shadow: 0 1px 3px rgba(16, 185, 129, 0.1);
+}
+
+.highlighted-word:hover {
+    background-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.highlighted-word::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.8), transparent);
+    border-radius: 1px;
+}
+
+/* 阅读器主题 */
+.reader-content-area.theme-light {
+    background-color: #ffffff;
+    color: #1f2937;
+}
+
+.reader-content-area.theme-light .reader-content {
+    background-color: #ffffff;
+    color: #1f2937;
+}
+
+.reader-content-area.theme-light .highlighted-word {
+    background-color: rgba(16, 185, 129, 0.25);
+    color: #059669;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.reader-content-area.theme-sepia {
+    background-color: #f7f3e9;
+    color: #5c4a2f;
+}
+
+.reader-content-area.theme-sepia .reader-content {
+    background-color: #faf7ed;
+    color: #5c4a2f;
+}
+
+.reader-content-area.theme-sepia .highlighted-word {
+    background-color: rgba(146, 124, 76, 0.4);
+    color: #92400e;
+    border-color: rgba(146, 124, 76, 0.5);
+}
+
+.reader-content-area.theme-dark {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+.reader-content-area.theme-dark .reader-content {
+    background-color: #374151;
+    color: #f9fafb;
+}
+
+.reader-content-area.theme-dark .highlighted-word {
+    background-color: rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.4);
+}
+
+/* 双栏模式下的控制面板调整 */
+.reader-controls-panel.dual-column-active {
+    bottom: 80px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .reader-content.dual-column-layout {
+        column-count: 1;
+        column-gap: 0;
+        column-rule: none;
+    }
+    
+    .reader-controls-panel {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .controls-content {
+        min-width: 180px;
+    }
+    
+    .reader-content {
+        padding: 1rem;
+        font-size: 16px;
+    }
+}
+
+/* 悬浮翻页按钮点击反馈 */
+.floating-page-btn.clicked {
+    background-color: #4f46e5 !important;
+    color: white !important;
+    border-color: #4f46e5 !important;
+    transform: translateY(-50%) scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4) !important;
+    transition: all 0.1s ease !important;
+}
+
+/* 增强用户体验的动画效果 */
+.reader-content-area, .reader-content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 阅读器主题切换的平滑过渡 */
+.reader-content-area.theme-light,
+.reader-content-area.theme-sepia,
+.reader-content-area.theme-dark {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.reader-content-area.theme-light .reader-content,
+.reader-content-area.theme-sepia .reader-content,
+.reader-content-area.theme-dark .reader-content {
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 字体大小调整的平滑过渡 */
+.reader-content * {
+    transition: font-size 0.2s ease;
+}
+
+/* 宽度调整的平滑过渡 */
+.reader-content {
+    transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+}
+
+/* 布局切换的动画效果 */
+.reader-content.dual-column-layout {
+    transition: column-count 0.3s ease, column-gap 0.3s ease, column-rule 0.3s ease;
+}
+
+/* 提升交互反馈 */
+.clickable-word {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.highlighted-word {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 控制面板的流畅动画 */
+.reader-controls-panel {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.controls-content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 悬浮翻页按钮的流畅动画 */
+.floating-page-btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-page-indicator {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,294 @@
+/* ==================== 上下文菜单样式 ==================== */
+
+.card-context-menu {
+    position: absolute; /* 从 fixed 改为 absolute */
+    width: 260px; /* 减小宽度 */
+    background-color: var(--surface-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* 调整阴影 */
+    border-radius: 12px; /* 添加圆角 */
+    z-index: var(--z-modal);
+    display: none; /* 默认隐藏 */
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+}
+
+.card-context-menu.active {
+    display: flex; /* 通过 active 类来显示 */
+}
+
+/* 侧边栏头部 */
+.sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.sidebar-close-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--text-color-muted);
+    transition: all 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* 侧边栏内容 */
+.sidebar-content {
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.sidebar-section {
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-section:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-section-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-color-muted);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* 颜色选择器 */
+.color-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+    align-items: center;
+}
+
+.color-option {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+}
+
+.color-option:hover {
+    transform: scale(1.05);
+    border-color: var(--primary-color);
+}
+
+.color-option.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.color-option.custom {
+    border: 2px dashed var(--border-color);
+    background: linear-gradient(135deg, #fff 60%, #eee 100%);
+    position: relative;
+}
+.color-option.custom::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: var(--primary-color, #6366f1);
+    opacity: 0.15;
+    position: absolute;
+    left: 20%;
+    top: 20%;
+    pointer-events: none;
+}
+
+/* 移除对勾符号 */
+.color-option.selected::after {
+    content: '';
+    display: none;
+}
+
+/* 预设颜色 */
+.color-option.default { background-color: #ffffff; border: 2px solid var(--border-color); }
+.color-option.blue { background-color: #bbdefb; }
+.color-option.green { background-color: #c8e6c9; }
+.color-option.purple { background-color: #e1bee7; }
+.color-option.orange { background-color: #ffcc80; }
+.color-option.pink { background-color: #f8bbd0; }
+
+/* 自定义颜色选择器 */
+.custom-color-section {
+    margin-top: 0.75rem;
+}
+
+.custom-color-trigger {
+    width: 100%;
+    height: 36px;
+    border: 2px dashed var(--border-color);
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color-muted);
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.custom-color-trigger:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+/* 操作按钮 */
+.sidebar-actions {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-btn {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.sidebar-btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.sidebar-btn.primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.sidebar-btn.secondary {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.sidebar-btn.secondary:hover {
+    background-color: #e5e7eb;
+    border-color: var(--text-color-muted);
+}
+
+.sidebar-btn.danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+.sidebar-btn.danger:hover {
+    background-color: #dc2626;
+}
+
+.sidebar-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sidebar-btn:disabled:hover {
+    transform: none;
+}
+
+input[type="color"] {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 180px;
+    height: 180px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    background: #fff;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 12px;
+}
+input[type="color"]::-webkit-color-swatch {
+    border-radius: 12px;
+    border: none;
+}
+
+/* Pickr 主题美化 */
+.pickr {
+    z-index: 99999 !important;
+}
+.pickr .pcr-app {
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    border: 1px solid var(--border-color, #e5e7eb) !important;
+    background: var(--surface-color, #fff) !important;
+    font-family: inherit;
+}
+.pickr .pcr-interaction {
+    border-top: 1px solid var(--border-color, #e5e7eb) !important;
+    padding-top: 8px;
+}
+.pickr .pcr-save, .pickr .pcr-cancel {
+    border-radius: 6px;
+    font-size: 0.95em;
+    font-weight: 500;
+    padding: 0.4em 1.2em;
+    margin: 0 0.5em;
+    background: var(--primary-color, #6366f1);
+    color: #fff;
+    border: none;
+    transition: background 0.2s;
+}
+.pickr .pcr-cancel {
+    background: #e5e7eb;
+    color: #333;
+}
+.pickr .pcr-save:hover {
+    background: var(--primary-color-dark, #4338ca);
+}
+.pickr .pcr-cancel:hover {
+    background: #d1d5db;
+}
+.pickr .pcr-swatches {
+    border-radius: 8px;
+    margin-bottom: 8px;
+}

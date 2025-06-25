@@ -1,0 +1,663 @@
+/* 上下文菜单样式 */
+.card-context-menu {
+    animation: none !important;
+    transition: none !important;
+    background-color: var(--surface-color);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0;
+    z-index: 10000;
+    position: fixed;
+    min-width: 160px;
+    overflow: hidden;
+}
+
+/* 暗黑主题下的上下文菜单 */
+[data-theme="dark"] .card-context-menu {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* 护眼主题下的上下文菜单 */
+[data-theme="sepia"] .card-context-menu {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 16px rgba(120, 113, 108, 0.2);
+}
+
+/* 颜色选择区域 */
+.color-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px;
+    justify-content: center;
+}
+
+/* 颜色选择器样式 */
+.color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.color-option:hover {
+    transform: scale(1.15);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.color-option.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+    transform: scale(1.1);
+}
+
+.color-option.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* 默认颜色适配不同主题 */
+.color-option.default {
+    background-color: var(--surface-color);
+    border: 2px solid var(--border-color);
+}
+
+.color-option.default.selected::after {
+    color: var(--text-color);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="dark"] .color-option.default {
+    background-color: #374151;
+    border-color: #4b5563;
+}
+
+[data-theme="dark"] .color-option.default.selected::after {
+    color: #f9fafb;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="sepia"] .color-option.default {
+    background-color: #f7f3e9;
+    border-color: #d6c7a1;
+}
+
+[data-theme="sepia"] .color-option.default.selected::after {
+    color: #44403c;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* 预设颜色适配不同主题 */
+.color-option.blue {
+    background-color: #3b82f6;
+}
+
+[data-theme="dark"] .color-option.blue {
+    background-color: #60a5fa;
+}
+
+[data-theme="sepia"] .color-option.blue {
+    background-color: #1d4ed8;
+}
+
+.color-option.green {
+    background-color: #10b981;
+}
+
+[data-theme="dark"] .color-option.green {
+    background-color: #34d399;
+}
+
+[data-theme="sepia"] .color-option.green {
+    background-color: #059669;
+}
+
+.color-option.purple {
+    background-color: #8b5cf6;
+}
+
+[data-theme="dark"] .color-option.purple {
+    background-color: #a78bfa;
+}
+
+[data-theme="sepia"] .color-option.purple {
+    background-color: #7c3aed;
+}
+
+.color-option.orange {
+    background-color: #f59e0b;
+}
+
+[data-theme="dark"] .color-option.orange {
+    background-color: #fbbf24;
+}
+
+[data-theme="sepia"] .color-option.orange {
+    background-color: #d97706;
+}
+
+.color-option.pink {
+    background-color: #ec4899;
+}
+
+[data-theme="dark"] .color-option.pink {
+    background-color: #f472b6;
+}
+
+[data-theme="sepia"] .color-option.pink {
+    background-color: #db2777;
+}
+
+.color-option.red {
+    background-color: #ef4444;
+}
+
+[data-theme="dark"] .color-option.red {
+    background-color: #f87171;
+}
+
+[data-theme="sepia"] .color-option.red {
+    background-color: #dc2626;
+}
+
+/* 自定义颜色选择器 */
+.color-option.custom {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+    position: relative;
+    border: 2px solid var(--border-color);
+}
+
+.color-option.custom::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.color-option.custom.selected::after {
+    content: '✓';
+}
+
+[data-theme="dark"] .color-option.custom {
+    background: linear-gradient(45deg, #dc2626, #059669, #0284c7, #7c3aed);
+    border-color: #4b5563;
+}
+
+[data-theme="sepia"] .color-option.custom {
+    background: linear-gradient(45deg, #b91c1c, #047857, #0369a1, #6d28d9);
+    border-color: #d6c7a1;
+}
+
+/* 菜单分隔线 */
+.menu-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 0;
+}
+
+[data-theme="dark"] .menu-divider {
+    background-color: #4b5563;
+}
+
+[data-theme="sepia"] .menu-divider {
+    background-color: #d6c7a1;
+}
+
+/* 菜单项 */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.menu-item:hover {
+    background-color: var(--surface-color-alt);
+}
+
+.menu-item.danger:hover {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+/* 暗黑主题下的菜单项 */
+[data-theme="dark"] .menu-item:hover {
+    background-color: #374151;
+}
+
+[data-theme="dark"] .menu-item.danger:hover {
+    background-color: #451a1a;
+    color: #f87171;
+}
+
+/* 护眼主题下的菜单项 */
+[data-theme="sepia"] .menu-item:hover {
+    background-color: #f0e6d2;
+}
+
+[data-theme="sepia"] .menu-item.danger:hover {
+    background-color: #451a03;
+    color: #ea580c;
+}
+
+.menu-icon {
+    font-size: 1rem;
+    margin-right: 12px;
+    width: 1rem;
+    text-align: center;
+}
+
+.menu-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* 菜单按钮样式 */
+.card-menu-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    color: var(--text-color-muted);
+    transition: color 0.2s ease;
+    z-index: 10;
+}
+
+.card-menu-btn:hover {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .card-menu-btn {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .card-menu-btn:hover {
+    color: #d1d5db;
+}
+
+[data-theme="sepia"] .card-menu-btn {
+    color: #a8a29e;
+}
+
+[data-theme="sepia"] .card-menu-btn:hover {
+    color: #78716c;
+}
+
+/* 文件夹菜单按钮样式 */
+.folder-menu-btn, .folder-list-menu-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    color: var(--text-color-muted);
+    z-index: 10;
+    opacity: 0;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.folder-list-menu-btn {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.folder-card:hover .folder-menu-btn,
+.folder-list-item:hover .folder-list-menu-btn {
+    opacity: 1;
+}
+
+.folder-menu-btn:hover,
+.folder-list-menu-btn:hover {
+    color: var(--text-color);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .folder-menu-btn,
+[data-theme="dark"] .folder-list-menu-btn {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .folder-menu-btn:hover,
+[data-theme="dark"] .folder-list-menu-btn:hover {
+    color: #d1d5db;
+    background-color: rgba(75, 85, 99, 0.5);
+}
+
+[data-theme="sepia"] .folder-menu-btn,
+[data-theme="sepia"] .folder-list-menu-btn {
+    color: #a8a29e;
+}
+
+[data-theme="sepia"] .folder-menu-btn:hover,
+[data-theme="sepia"] .folder-list-menu-btn:hover {
+    color: #78716c;
+    background-color: rgba(168, 162, 158, 0.2);
+}
+
+/* 菜单定位修正 */
+body > .card-context-menu {
+    position: fixed !important;
+    z-index: 10000 !important;
+}
+
+/* 确保上下文菜单不会被卡片遮挡 */
+body > .card-context-menu {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* 文件夹选择子菜单 */
+.folder-select-submenu {
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.menu-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    background: var(--surface-color-alt);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.menu-header:hover {
+    background: var(--primary-color-light);
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .menu-header {
+    background: #3a3a3a;
+}
+
+[data-theme="dark"] .menu-header:hover {
+    background: #4a4a4a;
+    color: #8b5cf6;
+}
+
+[data-theme="sepia"] .menu-header:hover {
+    background: #f5f0e5;
+    color: #92400e;
+}
+
+.folder-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.folder-list-item-menu {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.folder-list-item-menu:hover {
+    background: var(--surface-color-alt);
+    border-left-color: var(--primary-color);
+}
+
+[data-theme="dark"] .folder-list-item-menu:hover {
+    background: #3a3a3a;
+}
+
+[data-theme="sepia"] .folder-list-item-menu:hover {
+    background: #f5f0e5;
+}
+
+.folder-item-icon {
+    margin-right: 8px;
+    font-size: 1rem;
+}
+
+.folder-item-name {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+/* 菜单动画 */
+.card-context-menu {
+    transform-origin: top left;
+    animation: menuFadeIn 0.15s ease-out;
+}
+
+.card-context-menu.hiding {
+    animation: menuFadeOut 0.1s ease-in;
+}
+
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes menuFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95) translateY(-5px);
+    }
+}
+
+/* ==================== 文件夹上下文菜单样式 ==================== */
+
+.folder-context-menu {
+    position: fixed;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
+                0 4px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1100;
+    min-width: 200px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    
+    /* 动画相关属性 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.95);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.folder-context-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.folder-context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.folder-context-menu-item:last-child {
+    margin-bottom: 0;
+}
+
+.folder-context-menu-item:hover {
+    background: var(--primary-color-light);
+    color: var(--primary-color);
+    transform: translateX(2px);
+}
+
+.folder-context-menu-item.danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.folder-context-menu-item .icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 颜色选择器部分 */
+.folder-color-picker {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 8px;
+}
+
+.folder-color-picker .label {
+    font-size: 12px;
+    color: var(--text-color-muted);
+    margin-bottom: 8px;
+    padding: 0 16px;
+    font-weight: 500;
+}
+
+.folder-color-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    padding: 0 16px;
+}
+
+.folder-color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.folder-color-option:hover {
+    transform: scale(1.1);
+    border-color: var(--surface-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.folder-color-option.active {
+    border-color: var(--text-color);
+    transform: scale(1.15);
+}
+
+.folder-color-option.active::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 预定义颜色 */
+.color-emerald { background: linear-gradient(135deg, #10b981, #059669); }
+.color-blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.color-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.color-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+.color-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+.color-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.color-yellow { background: linear-gradient(135deg, #eab308, #ca8a04); }
+.color-indigo { background: linear-gradient(135deg, #6366f1, #4338ca); }
+.color-teal { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+.color-gray { background: linear-gradient(135deg, #6b7280, #4b5563); }
+
+/* 暗色主题适配 */
+[data-theme="dark"] .folder-context-menu {
+    background: rgba(var(--surface-color-rgb), 0.95);
+    border-color: var(--border-color);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3),
+                0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .folder-context-menu-item:hover {
+    background: rgba(var(--primary-color-rgb), 0.2);
+}
+
+/* 菜单箭头样式 */
+.menu-arrow {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-color-muted);
+    transition: transform 0.2s ease;
+}
+
+.menu-item:hover .menu-arrow {
+    transform: translateX(2px);
+    color: var(--text-color);
+}
+
+/* 暗色主题下的菜单箭头 */
+[data-theme="dark"] .menu-arrow {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .menu-item:hover .menu-arrow {
+    color: #d1d5db;
+}
+
+/* 棕褐色主题下的菜单箭头 */
+[data-theme="sepia"] .menu-arrow {
+    color: #a8a29e;
+}
+
+[data-theme="sepia"] .menu-item:hover .menu-arrow {
+    color: #78716c;
+}

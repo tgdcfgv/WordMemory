@@ -1,0 +1,521 @@
+/* ==================== 基础样式和变量 ==================== */
+
+:root {
+    --primary-color: #4f46e5;
+    --primary-color-dark: #4338ca;
+    --primary-color-light: #e0e7ff;
+    --primary-color-rgb: 79, 70, 229;
+    --secondary-color: #10b981;
+    --background-color: #f8f9fa;
+    --surface-color: #ffffff;
+    --surface-color-alt: #f9fafb;
+    --text-color: #1f2937;
+    --text-color-muted: #6b7280;
+    --border-color: #e5e7eb;
+      /* RGB versions for transparency support */
+    --surface-color-rgb: 255, 255, 255;
+    --background-color-rgb: 248, 249, 250;
+    
+    /* Folder color themes */
+    --folder-primary: #10b981;
+    --folder-secondary: #059669;
+    --folder-shadow-rgb: 16, 185, 129;
+    
+    /* Card color themes */
+    --blue-500: #3b82f6;
+    --blue-200: #bfdbfe;
+    --blue-100: #dbeafe;
+    --green-500: #10b981;
+    --green-200: #a7f3d0;
+    --green-100: #d1fae5;
+    --purple-500: #8b5cf6;
+    --purple-200: #c4b5fd;
+    --purple-100: #e9d5ff;
+    --orange-500: #f97316;
+    --orange-200: #fed7aa;
+    --orange-100: #ffedd5;
+    --pink-500: #ec4899;
+    --pink-200: #f9a8d4;
+    --pink-100: #fce7f3;
+    
+    --tag-bg: #f3f4f6;
+    --tag-text: #6b7280;
+    --tag-border: #d1d5db;
+
+    --font-family: 'Noto Sans SC', sans-serif;
+    --border-radius: 12px;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* Z-index layers */
+    --z-background: 0;
+    --z-content: 1;
+    --z-elevated: 10;
+    --z-floating: 100;
+    --z-navigation: 100;
+    --z-modal: 1000;
+    --z-tooltip: 1100;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+#app-container {
+    width: 100%;
+    min-height: 100vh;
+    transition: background-color 0.3s ease;
+    height: 100vh;
+    overflow-y: hidden; /* 防止垂直滚动 */
+    overflow-x: visible; /* 允许水平阴影显示 */
+    position: relative;
+}
+
+/* ==================== 通用组件样式 ==================== */
+
+/* 视图管理 */
+.view {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: visible; /* 允许水平溢出 */
+    display: none;
+    flex-direction: column;
+    position: relative;
+}
+
+.view.active-view {
+    display: flex;
+}
+
+/* 书库视图填充 */
+.view#library-view {
+    padding: 2rem;
+}
+
+/* 阅读视图无填充，背景固定 */
+.view#reading-view {
+    padding: 0;
+    background-color: var(--background-color);
+}
+
+/* 通用头部 - 旧版样式，由unified-header.css覆盖 */
+.app-header.legacy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border: none;
+    position: relative;
+    z-index: var(--z-elevated);
+}
+
+.app-header.legacy h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-actions button {
+    padding: 0.5rem 0.75rem;
+    background: var(--surface-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color-muted);
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* 统一的图标按钮样式 */
+.header-icon-btn {
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0.75rem !important;
+    background: var(--surface-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color-muted);
+    transition: all 0.2s ease;
+    font-size: 1.2rem;
+}
+
+.header-icon-btn:hover {
+    background: var(--primary-color-light);
+    color: var(--primary-color);
+    border: none;
+}
+
+.header-actions button:hover {
+    background: var(--primary-color-light);
+    color: var(--primary-color);
+    border: none;
+}
+
+/* 按钮点击反馈 - 颜色变化 */
+#layout-vertical-btn.clicked,
+#layout-paging-btn.clicked,
+#prev-page.clicked,
+#next-page.clicked {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border-color: var(--primary-color) !important;
+  transition: all 0.15s ease;
+}
+
+/* 内容淡入淡出动画 */
+#reader-content.fade-in {
+  animation: fadeIn 0.25s;
+}
+#reader-content.fade-out {
+  animation: fadeOut 0.2s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ==================== 悬浮功能按钮 ==================== */
+.floating-actions {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: var(--z-floating);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 只在书库视图显示悬浮按钮 */
+.view:not(#library-view).active-view ~ .floating-actions {
+    display: none;
+}
+
+.floating-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.floating-btn.modern-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.floating-btn:hover {
+    background-color: var(--primary-color-dark);
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+}
+
+.floating-btn.modern-btn:hover {
+    background: linear-gradient(135deg, var(--primary-color-dark), var(--primary-color));
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.5);
+}
+
+.floating-btn:active {
+    transform: scale(0.95);
+}
+
+/* 按钮提示文字 */
+.floating-btn::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    margin-right: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.floating-btn:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================== 主题切换按钮 ==================== */
+/* 使用全局header-actions样式，移除重复定义 */
+
+.header-actions .theme-toggle-btn {
+    font-size: 1.2rem;
+}
+
+/* 主题切换按钮emoji样式 */
+.header-icon-btn #theme-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==================== 暗黑主题 ==================== */
+[data-theme="dark"] {
+    --primary-color: #6366f1;
+    --primary-color-dark: #4f46e5;
+    --primary-color-light: #312e81;
+    --primary-color-rgb: 99, 102, 241;
+    --secondary-color: #10b981;
+    --background-color: #1a1a1a;
+    --surface-color: #2d2d2d;
+    --surface-color-alt: #383838;
+    --text-color: #e5e5e5;
+    --text-color-muted: #a0a0a0;
+    --border-color: #404040;
+    
+    /* RGB versions for transparency support */
+    --surface-color-rgb: 45, 45, 45;
+    --background-color-rgb: 26, 26, 26;
+    
+    /* Folder colors for dark theme */
+    --folder-primary: #34d399;
+    --folder-secondary: #10b981;
+    --folder-shadow-rgb: 52, 211, 153;
+    
+    --tag-bg: #404040;
+    --tag-text: #a0a0a0;
+    --tag-border: #505050;
+}
+
+/* 护眼主题 */
+[data-theme="sepia"] {
+    --primary-color: #92400e;
+    --primary-color-dark: #78350f;
+    --primary-color-light: #fef3c7;
+    --primary-color-rgb: 146, 64, 14;
+    --secondary-color: #059669;
+    --background-color: #fefdf2;
+    --surface-color: #fffbeb;
+    --surface-color-alt: #fef7cd;
+    --text-color: #292524;
+    --text-color-muted: #57534e;
+    --border-color: #e7e5e4;
+    
+    /* RGB versions for transparency support */
+    --surface-color-rgb: 255, 251, 235;
+    --background-color-rgb: 254, 253, 242;
+    
+    /* Folder colors for sepia theme */
+    --folder-primary: #059669;
+    --folder-secondary: #047857;
+    --folder-shadow-rgb: 5, 150, 105;
+    
+    --tag-bg: #fef7cd;
+    --tag-text: #57534e;
+    --tag-border: #e7e5e4;
+}
+
+/* 护眼主题补充 */
+[data-theme="sepia"] {
+    --background-color: #f4f1e8;
+    --surface-color: #faf7f0;
+    --surface-color-alt: #f0ede4;
+    --text-color: #5c4b37;
+    --text-color-muted: #8b7355;
+    --border-color: #d4c4a8;
+    --tag-bg: #e8dcc0;
+    --tag-text: #8b7355;
+    --tag-border: #d4c4a8;
+}
+
+/* 表单控件在不同主题下的样式 */
+.form-group input,
+.form-group textarea,
+.form-group select,
+.control-item select,
+.rename-input {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.control-item select:focus,
+.rename-input:focus {
+    border-color: var(--primary-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* 输入框placeholder颜色 */
+.form-group input::placeholder,
+.form-group textarea::placeholder,
+.rename-input::placeholder {
+    color: var(--text-color-muted);
+    opacity: 0.7;
+}
+
+/* 增强悬浮按钮的可访问性 */
+@media (max-width: 768px) {
+    .floating-actions {
+        bottom: 1rem;
+        right: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .floating-btn {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .floating-btn::before {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+        margin-right: 0.4rem;
+    }
+}
+
+/* 暗黑主题下的悬浮按钮 */
+[data-theme="dark"] .floating-btn.modern-btn {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.6);
+    color: white;
+}
+
+[data-theme="dark"] .floating-btn.modern-btn:hover {
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.7);
+    transform: scale(1.05);
+}
+
+[data-theme="dark"] .floating-btn::before {
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+}
+
+/* 护眼主题下的悬浮按钮 */
+[data-theme="sepia"] .floating-btn.modern-btn {
+    background: linear-gradient(135deg, #92400e, #78350f);
+    box-shadow: 0 4px 12px rgba(146, 64, 14, 0.5);
+    color: #fef3c7;
+}
+
+[data-theme="sepia"] .floating-btn.modern-btn:hover {
+    box-shadow: 0 8px 20px rgba(146, 64, 14, 0.6);
+    transform: scale(1.05);
+}
+
+[data-theme="sepia"] .floating-btn::before {
+    background: linear-gradient(135deg, transparent, rgba(254, 243, 199, 0.2));
+}
+
+/* 高对比度支持 */
+@media (prefers-contrast: high) {
+    .floating-btn {
+        border: 2px solid var(--text-color);
+    }
+    
+    .floating-btn:hover {
+        border-color: white;
+    }
+}
+
+/* ==================== 全局动画优化 ==================== */
+* {
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 优化按钮交互动画 */
+button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button:active {
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* 优化卡片动画 */
+.document-card, .document-list-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+
+
+/* 优化视图切换动画 */
+.view {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 优化模态框动画 */
+.modal-overlay {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-content {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 优化输入框动画 */
+input, textarea, select {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    transform: scale(1.02);
+}
+
+/* 减少动画对性能的影响 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

@@ -1,0 +1,952 @@
+/* ==================== 书库容器样式 ==================== */
+
+.library-container {
+    flex: 1;
+    padding: 0 1rem 2rem 1rem;
+    overflow: visible; /* 改为visible以显示卡片悬浮阴影 */
+    position: relative;
+    height: calc(100vh - 220px); /* 适当增加头部空间 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==================== 书库卡片样式 ==================== */
+
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    row-gap: 1rem;
+    column-gap: 1rem;
+    flex: 1; /* 改为flex: 1 以填充剩余空间 */
+    overflow-y: auto;
+    overflow-x: visible; /* 允许水平阴影显示 */
+    position: relative;
+    z-index: var(--z-content);
+    align-items: start; /* 改为start避免拉伸 */
+    grid-auto-rows: 170px;
+    padding: 0.5rem 1rem; /* 增加左右padding为阴影留空间 */
+    margin: 0 -1rem; /* 用负边距抵消padding，保持内容宽度 */
+    /* 移除固定高度，使用flex布局 */
+}
+
+.library-grid.hidden {
+    display: none;
+}
+
+.document-card, .import-card {
+    /* 文档卡片使用主题色的渐变背景 */
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.04), 
+        rgba(var(--primary-color-rgb), 0.02));
+    border: 2px solid rgba(var(--primary-color-rgb), 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(var(--primary-color-rgb), 0.04),
+                0 1px 3px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 170px;
+    position: relative;
+    z-index: var(--z-content);
+    margin-bottom: 0;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* 文档卡片装饰线条 - 已移除 */
+
+/* 文档卡片悬停状态 */
+.document-card:hover, .import-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 12px 40px rgba(var(--primary-color-rgb), 0.08),
+                0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(var(--primary-color-rgb), 0.15);
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.06), 
+        rgba(var(--primary-color-rgb), 0.03));
+    z-index: 10; /* 提高z-index确保悬停时不被其他元素遮挡 */
+}
+
+
+
+/* 文档卡片选中状态 */
+.document-card.selected, .import-card.selected {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.1), 
+        rgba(var(--primary-color-rgb), 0.05));
+    box-shadow: 0 8px 32px rgba(var(--primary-color-rgb), 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+
+.card-content {
+    padding: 0.8rem 1rem 0.6rem 1rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.4;
+    height: auto;
+    min-height: 2.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+/* 卡片和列表视图的统一信息显示 */
+.card-meta, .list-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-color-muted);
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.card-meta .meta-item,
+.list-item-meta .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+}
+
+.card-meta .meta-icon,
+.list-item-meta .meta-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+}
+
+/* 语言标签简化样式 */
+.language-tag {
+    background: none;
+    color: var(--text-color);
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* 标签统一样式 */
+.card-tags, .list-item-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+}
+
+.tag {
+    background: var(--tag-bg, rgba(99, 102, 241, 0.1));
+    color: var(--tag-text, var(--primary-color));
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    border: 1px solid var(--tag-border, rgba(99, 102, 241, 0.2));
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* 标签的交互动画 */
+.tag {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tag:hover {
+    background: var(--primary-color-light);
+}
+
+/* 阅读进度简化样式 */
+.reading-progress, .list-item-progress {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0;
+    border-radius: 0;
+    text-align: center;
+    min-width: 60px;
+    transition: all 0.3s ease;
+    background: none;
+    border: none;
+}
+
+/* 阅读进度状态的动画 */
+.reading-progress, .list-item-progress {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 新文档状态 */
+.reading-progress.status-new, .list-item-progress.status-new {
+    color: #4338ca;
+}
+
+/* 已开始阅读状态 */
+.reading-progress.status-started, .list-item-progress.status-started {
+    color: #d97706;
+}
+
+/* 阅读中状态 */
+.reading-progress.status-reading, .list-item-progress.status-reading {
+    color: var(--primary-color);
+}
+
+/* 已完成状态 */
+.reading-progress.status-completed, .list-item-progress.status-completed {
+    color: #065f46;
+}
+
+/* 最后阅读时间统一样式 */
+.last-read, .list-item-date {
+    font-size: 0.75rem;
+    color: var(--text-color-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.last-read::before, .list-item-date::before {
+    content: '📖';
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+/* 卡片底部阅读时间 */
+.card-footer {
+    padding: 0.4rem 1rem 0.4rem 1rem; /* 上下padding更紧凑 */
+    border-top: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    color: var(--text-color-muted);
+    background-color: var(--surface-color-alt);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.card-footer .last-read {
+    font-size: 0.7rem;
+    color: var(--text-color-muted);
+    transition: all 0.3s ease;
+}
+
+.card-footer .reading-progress {
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* 卡片按钮 */
+.card-menu-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    z-index: var(--z-elevated);
+}
+
+/* 菜单按钮的交互反馈 */
+.card-menu-btn, .list-item-menu-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.document-card:hover .card-menu-btn {
+    opacity: 1;
+}
+
+.card-menu-btn:hover {
+    background: rgba(255,255,255,1);
+    transform: scale(1.1);
+}
+
+.card-select-btn {
+    position: absolute;
+    top: 8px;
+    right: 40px;
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--text-color);
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    z-index: var(--z-elevated);
+}
+
+.document-card:hover .card-select-btn {
+    opacity: 1;
+}
+
+.card-select-btn:hover {
+    background: rgba(255,255,255,1);
+    transform: scale(1.1);
+}
+
+/* 导入卡片样式 */
+.import-card {
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed var(--border-color);
+    color: var(--text-color-muted);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* 导入卡片的动画 */
+.import-card, .import-list-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.import-card:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: var(--primary-color-light);
+}
+
+.import-icon {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+}
+
+.import-card p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* 卡片颜色主题变量系统 */
+.document-card.theme-blue {
+    --card-bg: #bbdefb;
+    --card-text: #1565c0;
+    --card-meta: #1976d2;
+    --card-footer-bg: #e3f2fd;
+}
+
+[data-theme="dark"] .document-card.theme-blue {
+    --card-bg: #1e3a8a;
+    --card-text: #93c5fd;
+    --card-meta: #60a5fa;
+    --card-footer-bg: #1e40af;
+}
+
+[data-theme="sepia"] .document-card.theme-blue {
+    --card-bg: #bbdefb;
+    --card-text: #1565c0;
+    --card-meta: #1976d2;
+    --card-footer-bg: #e3f2fd;
+}
+
+.document-card.theme-green {
+    --card-bg: #c8e6c9;
+    --card-text: #2e7d32;
+    --card-meta: #388e3c;
+    --card-footer-bg: #e8f5e9;
+}
+
+[data-theme="dark"] .document-card.theme-green {
+    --card-bg: #14532d;
+    --card-text: #86efac;
+    --card-meta: #4ade80;
+    --card-footer-bg: #166534;
+}
+
+[data-theme="sepia"] .document-card.theme-green {
+    --card-bg: #c8e6c9;
+    --card-text: #2e7d32;
+    --card-meta: #388e3c;
+    --card-footer-bg: #e8f5e9;
+}
+
+.document-card.theme-purple {
+    --card-bg: #e1bee7;
+    --card-text: #7b1fa2;
+    --card-meta: #8e24aa;
+    --card-footer-bg: #f3e5f5;
+}
+
+[data-theme="dark"] .document-card.theme-purple {
+    --card-bg: #581c87;
+    --card-text: #c084fc;
+    --card-meta: #a855f7;
+    --card-footer-bg: #6b21a8;
+}
+
+[data-theme="sepia"] .document-card.theme-purple {
+    --card-bg: #e1bee7;
+    --card-text: #7b1fa2;
+    --card-meta: #8e24aa;
+    --card-footer-bg: #f3e5f5;
+}
+
+.document-card.theme-orange {
+    --card-bg: #ffcc80;
+    --card-text: #e65100;
+    --card-meta: #f57c00;
+    --card-footer-bg: #fff3e0;
+}
+
+[data-theme="dark"] .document-card.theme-orange {
+    --card-bg: #9a3412;
+    --card-text: #fed7aa;
+    --card-meta: #fb923c;
+    --card-footer-bg: #c2410c;
+}
+
+[data-theme="sepia"] .document-card.theme-orange {
+    --card-bg: #ffcc80;
+    --card-text: #e65100;
+    --card-meta: #f57c00;
+    --card-footer-bg: #fff3e0;
+}
+
+.document-card.theme-pink {
+    --card-bg: #f8bbd0;
+    --card-text: #ad1457;
+    --card-meta: #c2185b;
+    --card-footer-bg: #fce4ec;
+}
+
+[data-theme="dark"] .document-card.theme-pink {
+    --card-bg: #9d174d;
+    --card-text: #f9a8d4;
+    --card-meta: #f472b6;
+    --card-footer-bg: #be185d;
+}
+
+[data-theme="sepia"] .document-card.theme-pink {
+    --card-bg: #f8bbd0;
+    --card-text: #ad1457;
+    --card-meta: #c2185b;
+    --card-footer-bg: #fce4ec;
+}
+
+.document-card.theme-red {
+    --card-bg: #ffcdd2;
+    --card-text: #c62828;
+    --card-meta: #d32f2f;
+    --card-footer-bg: #ffebee;
+}
+
+[data-theme="dark"] .document-card.theme-red {
+    --card-bg: #991b1b;
+    --card-text: #fca5a5;
+    --card-meta: #f87171;
+    --card-footer-bg: #dc2626;
+}
+
+[data-theme="sepia"] .document-card.theme-red {
+    --card-bg: #ffcdd2;
+    --card-text: #c62828;
+    --card-meta: #d32f2f;
+    --card-footer-bg: #ffebee;
+}
+
+/* 应用主题变量 */
+.document-card[class*="theme-"] {
+    background-color: var(--card-bg);
+}
+
+.document-card[class*="theme-"] .card-content h3,
+.document-card[class*="theme-"] .card-footer,
+.document-card[class*="theme-"] .card-footer .last-read,
+.document-card[class*="theme-"] .card-footer .reading-progress {
+    color: var(--card-text);
+}
+
+.document-card[class*="theme-"] .card-footer {
+    background-color: var(--card-footer-bg);
+    border-top-color: var(--card-bg);
+}
+
+.document-card[class*="theme-"] .card-meta {
+    color: var(--card-meta);
+}
+
+/* ==================== 视图切换控件 ==================== */
+/* 使用全局header-actions样式，移除重复定义 */
+
+/* ==================== 列表视图样式 ==================== */
+/* ==================== 列表视图样式 ==================== */
+.library-list {
+    display: none; /* 默认隐藏，通过JavaScript切换 */
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: visible; /* 确保菜单不被裁剪 */
+    position: relative;
+    z-index: var(--z-content);
+}
+
+.library-list.show {
+    display: flex;
+}
+
+/* 列表项采用与文档卡片相似的设计语言，区别于文件夹 */
+.document-list-item, .import-list-item {
+    /* 文档列表项使用主题色的渐变背景 */
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.04), 
+        rgba(var(--primary-color-rgb), 0.02));
+    border: 2px solid rgba(var(--primary-color-rgb), 0.08);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.04),
+                0 1px 3px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    min-height: auto;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* 文档列表项装饰线条 - 已移除 */
+
+.document-list-item:hover, .import-list-item:hover {
+    box-shadow: 0 6px 20px rgba(var(--primary-color-rgb), 0.08),
+                0 2px 6px rgba(0, 0, 0, 0.08);
+    border-color: rgba(var(--primary-color-rgb), 0.15);
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.06), 
+        rgba(var(--primary-color-rgb), 0.03));
+}
+
+
+
+/* 文档列表项选中状态 */
+.document-list-item.selected, .import-list-item.selected {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.1), 
+        rgba(var(--primary-color-rgb), 0.05));
+    box-shadow: 0 4px 16px rgba(var(--primary-color-rgb), 0.15),
+                0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+
+
+/* 列表卡片内容结构 */
+.list-card-content {
+    padding: 1rem 1.25rem 0.75rem 1.25rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.list-card-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    flex-grow: 1;
+    padding-right: 1rem;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 与卡片相同的元信息样式 */
+.list-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-color-muted);
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.list-card-meta .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+}
+
+.list-card-meta .meta-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+}
+
+/* 标签样式与卡片一致 */
+.list-card-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.list-card-tags .tag {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    padding: 0.125rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    border: 1px solid var(--tag-border);
+}
+
+/* 列表卡片底部样式 */
+.list-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    background-color: var(--surface-color-alt);
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8rem;
+}
+
+.list-card-footer .last-read {
+    color: var(--text-color-muted);
+    font-size: 0.8rem;
+}
+
+.list-card-footer .reading-progress {
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* 列表项菜单按钮样式 */
+.list-item-menu-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--surface-color);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+    font-family: inherit;
+    line-height: 1;
+    border: 1px solid var(--border-color);
+}
+
+.document-list-item:hover .list-item-menu-btn {
+    opacity: 1;
+}
+
+.list-item-menu-btn:hover {
+    background: var(--primary-color-light);
+    transform: scale(1.1);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+}
+
+/* 导入项列表样式 */
+.import-list-item {
+    border: 2px dashed var(--border-color);
+    background: var(--surface-color-alt);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 80px;
+    padding: 1.5rem;
+}
+
+.import-list-item:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: var(--primary-color-light);
+}
+
+.import-list-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.import-list-icon {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+/* 颜色主题支持 - 列表项 */
+.document-list-item.theme-blue {
+    --card-bg: var(--blue-500);
+    --card-text: white;
+    --card-meta: var(--blue-200);
+    --card-footer-bg: var(--blue-100);
+}
+
+.document-list-item.theme-green {
+    --card-bg: var(--green-500);
+    --card-text: white;
+    --card-meta: var(--green-200);
+    --card-footer-bg: var(--green-100);
+}
+
+.document-list-item.theme-purple {
+    --card-bg: var(--purple-500);
+    --card-text: white;
+    --card-meta: var(--purple-200);
+    --card-footer-bg: var(--purple-100);
+}
+
+.document-list-item.theme-orange {
+    --card-bg: var(--orange-500);
+    --card-text: white;
+    --card-meta: var(--orange-200);
+    --card-footer-bg: var(--orange-100);
+}
+
+.document-list-item.theme-pink {
+    --card-bg: var(--pink-500);
+    --card-text: white;
+    --card-meta: var(--pink-200);
+    --card-footer-bg: var(--pink-100);
+}
+
+/* 应用卡片颜色到列表项 */
+.document-list-item[class*="theme-"] .list-card-content,
+.document-list-item[style*="--card-bg"] .list-card-content {
+    background: var(--card-bg, var(--surface-color));
+    color: var(--card-text, var(--text-color));
+}
+
+.document-list-item[class*="theme-"] .list-card-title,
+.document-list-item[style*="--card-bg"] .list-card-title {
+    color: var(--card-text, var(--text-color));
+}
+
+.document-list-item[class*="theme-"] .list-card-meta,
+.document-list-item[style*="--card-bg"] .list-card-meta {
+    color: var(--card-meta, var(--text-color-muted));
+}
+
+.document-list-item[class*="theme-"] .list-card-footer,
+.document-list-item[style*="--card-bg"] .list-card-footer {
+    background: var(--card-footer-bg, var(--surface-color-alt));
+    border-color: var(--card-meta, var(--border-color));
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .list-card-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .list-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .list-item-menu-btn {
+        position: static;
+        margin-top: 0.5rem;
+        opacity: 1;
+    }
+}
+
+/* 响应式布局阴影空间优化 */
+@media (max-width: 768px) {
+    .library-grid {
+        padding: 0.5rem 0.75rem; /* 小屏幕减少padding */
+        margin: 0 -0.75rem; /* 相应调整负边距 */
+    }
+    
+    .library-container {
+        padding: 0 0.75rem 2rem 0.75rem; /* 减少左右padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .library-grid {
+        padding: 0.5rem 0.5rem; /* 更小屏幕进一步减少 */
+        margin: 0 -0.5rem;
+    }
+    
+    .library-container {
+        padding: 0 0.5rem 2rem 0.5rem;
+    }
+}
+
+/* 文件夹卡片补充样式 */
+.folder-card {
+    min-height: 170px;
+}
+
+.folder-card:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color-light);
+}
+
+.folder-card.selected {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color-light);
+}
+
+/* 文件夹图标样式 */
+.folder-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* 文件夹名称样式 */
+.folder-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    word-break: break-word;
+    line-height: 1.4;
+    max-height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-align: center;
+}
+
+/* 文件夹信息样式 */
+.folder-info {
+    padding: 0.4rem 1rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    color: var(--text-color-muted);
+    background-color: var(--surface-color-alt);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.folder-info::before {
+    content: '📄';
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+/* ==================== 主题适配增强 ==================== */
+
+/* 暗黑主题下的文档卡片和列表项 */
+[data-theme="dark"] .document-card,
+[data-theme="dark"] .import-card,
+[data-theme="dark"] .document-list-item,
+[data-theme="dark"] .import-list-item {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.08), 
+        rgba(var(--primary-color-rgb), 0.04));
+    border-color: rgba(var(--primary-color-rgb), 0.15);
+}
+
+[data-theme="dark"] .document-card:hover,
+[data-theme="dark"] .import-card:hover,
+[data-theme="dark"] .document-list-item:hover,
+[data-theme="dark"] .import-list-item:hover {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.12), 
+        rgba(var(--primary-color-rgb), 0.06));
+    border-color: rgba(var(--primary-color-rgb), 0.25);
+}
+
+[data-theme="dark"] .document-card.selected,
+[data-theme="dark"] .import-card.selected,
+[data-theme="dark"] .document-list-item.selected,
+[data-theme="dark"] .import-list-item.selected {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.2), 
+        rgba(var(--primary-color-rgb), 0.1));
+}
+
+/* 护眼主题下的文档卡片和列表项 */
+[data-theme="sepia"] .document-card,
+[data-theme="sepia"] .import-card,
+[data-theme="sepia"] .document-list-item,
+[data-theme="sepia"] .import-list-item {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.06), 
+        rgba(var(--primary-color-rgb), 0.03));
+    border-color: rgba(var(--primary-color-rgb), 0.12);
+}
+
+[data-theme="sepia"] .document-card:hover,
+[data-theme="sepia"] .import-card:hover,
+[data-theme="sepia"] .document-list-item:hover,
+[data-theme="sepia"] .import-list-item:hover {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.1), 
+        rgba(var(--primary-color-rgb), 0.05));
+    border-color: rgba(var(--primary-color-rgb), 0.2);
+}
+
+[data-theme="sepia"] .document-card.selected,
+[data-theme="sepia"] .import-card.selected,
+[data-theme="sepia"] .document-list-item.selected,
+[data-theme="sepia"] .import-list-item.selected {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.15), 
+        rgba(var(--primary-color-rgb), 0.08));
+}

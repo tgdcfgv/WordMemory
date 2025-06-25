@@ -1,0 +1,387 @@
+/* ==================== 统一美化的头部样式 ==================== */
+
+/* 确保关键颜色变量存在 */
+:root {
+    --header-gradient-start: rgba(255, 255, 255, 0.95);
+    --header-gradient-end: rgba(255, 255, 255, 0.9);
+    --header-border: rgba(229, 231, 235, 0.8);
+    --nav-bg: rgba(255, 255, 255, 0.6);
+    --nav-border: rgba(229, 231, 235, 0.5);
+    --primary-rgb: 79, 70, 229;
+    --accent-color: #e91e63;
+}
+
+[data-theme="dark"] {
+    --header-gradient-start: rgba(45, 45, 45, 0.95);
+    --header-gradient-end: rgba(45, 45, 45, 0.9);
+    --header-border: rgba(64, 64, 64, 0.8);
+    --nav-bg: rgba(45, 45, 45, 0.8);
+    --nav-border: rgba(64, 64, 64, 0.5);
+}
+
+/* 现代化顶部栏设计 - 简化版 */
+.app-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header, 1000);
+    transition: all 0.3s ease;
+    min-height: 80px;
+    animation: breathe 4s ease-in-out infinite;
+}
+
+/* 呼吸动画效果 */
+@keyframes breathe {
+    0%, 100% {
+        background: rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        background: rgba(255, 255, 255, 0.9);
+    }
+}
+
+/* 暗色主题的呼吸效果 */
+[data-theme="dark"] .app-header {
+    background: rgba(45, 45, 45, 0.8);
+    animation: breatheDark 4s ease-in-out infinite;
+}
+
+@keyframes breatheDark {
+    0%, 100% {
+        background: rgba(45, 45, 45, 0.8);
+    }
+    50% {
+        background: rgba(45, 45, 45, 0.9);
+    }
+}
+
+/* 左侧区域 */
+.header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+/* 导航链接容器 - 简化设计 */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* 标题链接样式 */
+.nav-title {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color-secondary);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+/* 当前页面的标题样式 */
+.nav-title.active {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    opacity: 1;
+}
+
+/* 简化的右侧操作按钮区域 */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-left: 1rem;
+}
+
+/* 简化的图标按钮 */
+.header-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-color-secondary);
+    transition: color 0.2s ease;
+    font-size: 1rem;
+}
+
+/* SVG图标样式 */
+.header-icon-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: none;
+}
+
+/* 额外的交互增强效果 */
+
+/* 页面加载时头部淡入效果 */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.app-header {
+    animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 导航链接点击波纹效果 */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.nav-link:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* 图标按钮旋转动画 */
+.header-icon-btn svg {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.header-icon-btn#settings-btn:hover svg {
+    transform: rotate(90deg) scale(1.1);
+}
+
+.header-icon-btn#theme-toggle-btn:hover {
+    transform: scale(1.1) rotate(20deg);
+}
+
+/* 搜索按钮脉冲效果 */
+.header-icon-btn#search-btn:hover {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
+/* 标题文字流光效果 */
+.app-header h1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent);
+    transition: left 0.6s;
+}
+
+.app-header h1:hover::before {
+    left: 100%;
+}
+
+/* 面包屑导航增强 */
+.header-nav::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-color), 
+        transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.header-nav:hover::before {
+    opacity: 1;
+}
+
+/* 按钮组悬停时的整体效果 */
+.header-actions:hover .header-icon-btn:not(:hover) {
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+/* 提升视觉层次的阴影变化 */
+.app-header {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.app-header:hover {
+    transform: translateY(-1px);
+}
+
+/* 活动导航链接的指示器 */
+.nav-link.active::before {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* 修复页面布局 - 确保头部正确定位 */
+.view {
+    padding-top: 0 !important;
+}
+
+.view#library-view {
+    padding: 0 !important;
+}
+
+/* 确保头部下方内容有适当间距 */
+.app-header + * {
+    margin-top: 1.5rem;
+}
+
+/* 修复导航栏的定位 */
+.navigation-bar {
+    margin-top: 0;
+}
+
+/* 确保书库内容从头部下方开始 */
+.library-container,
+.vocabulary-container,
+.review-container {
+    padding: 1.5rem 2rem 2rem 2rem;
+}
+
+/* 响应式触摸增强 */
+@media (hover: none) and (pointer: coarse) {
+    .nav-link:active {
+        transform: scale(0.96);
+        background: linear-gradient(135deg, 
+            rgba(var(--primary-rgb, 79, 70, 229), 0.2), 
+            rgba(var(--primary-rgb, 79, 70, 229), 0.1));
+    }
+    
+    .header-icon-btn:active {
+        transform: scale(0.9);
+    }
+}
+
+/* 无障碍访问增强 */
+.nav-link:focus-visible,
+.header-icon-btn:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* 减少动画模式适配 */
+@media (prefers-reduced-motion: reduce) {
+    .app-header,
+    .nav-link,
+    .header-icon-btn,
+    .nav-link::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .header-icon-btn:hover svg {
+        transform: none !important;
+    }
+}
+
+/* 暗色主题适配 */
+@media (prefers-color-scheme: dark) {
+    .app-header::before {
+        opacity: 0.6;
+    }
+    
+    .header-nav {
+        background: var(--nav-bg, rgba(45, 45, 45, 0.8));
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .header-icon-btn {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+      .header-icon-btn:hover {
+        box-shadow: 0 6px 20px rgba(var(--primary-rgb, 79, 70, 229), 0.3),
+                    0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* 动画增强 */
+@keyframes headerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.app-header {
+    animation: headerFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 焦点样式 */
+.nav-link:focus,
+.header-icon-btn:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* 禁用状态 */
+.header-icon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-icon-btn:disabled:hover {
+    background: linear-gradient(135deg, 
+        var(--surface-color), 
+        var(--surface-color-alt));
+    color: var(--text-color-secondary);
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
